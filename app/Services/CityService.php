@@ -26,7 +26,11 @@ class CityService
         $cities[] = [
             'id' => Str::uuid()->toString(),
             'name' => $data['name'],
-            'price' => $data['price'],
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'region' => $data['region'],
+            'is_capital' => $data['is_capital']!== 0? true : false,
+            'population' => $data['population'],
         ];
 
         Session::put($this->sessionKey, $cities);
@@ -37,7 +41,11 @@ class CityService
         $cities = collect($this->all())->map(function ($city) use ($id, $data) {
             if ($city['id'] === $id) {
                 $city['name'] = $data['name'];
-                $city['price'] = $data['price'];
+                $city['country'] = $data['country'];
+                $city['state'] = $data['state'];
+                $city['region'] = $data['region'];
+                $city['is_capital'] = $data['is_capital'];
+                $city['population'] = $data['population'];
             }
             return $city;
         })->values()->all();

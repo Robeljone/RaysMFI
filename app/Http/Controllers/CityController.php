@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Services\CityService;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 class CityController extends Controller
 {
     private CityService $cityService;
@@ -28,9 +28,13 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-        ]);
+          'name'       => ['required', 'string', 'max:255'],
+          'country'    => ['required', 'string', 'max:255'],
+          'state'      => ['nullable', 'string', 'max:255'],
+          'region'     => ['nullable', 'string', 'max:255'],
+          'is_capital' => ['nullable'],
+          'population' => ['required', 'integer', 'min:0'],
+          ]);
 
         $this->cityService->create($request->all());
 
@@ -48,10 +52,14 @@ class CityController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-        ]);
+         $request->validate([
+          'name'       => ['required', 'string', 'max:255'],
+          'country'    => ['required', 'string', 'max:255'],
+          'state'      => ['nullable', 'string', 'max:255'],
+          'region'     => ['nullable', 'string', 'max:255'],
+          'is_capital' => ['nullable'],
+          'population' => ['required', 'integer', 'min:0'],
+          ]);
 
         $this->cityService->update($id, $request->all());
 
